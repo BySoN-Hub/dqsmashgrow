@@ -20,9 +20,8 @@
       radial-gradient(circle at 20% 10%, rgba(60,90,200,.25), transparent 40%),
       radial-gradient(circle at 80% 80%, rgba(40,70,160,.25), transparent 45%),
       linear-gradient(160deg,#040a1f,#081435 45%,#0a1a3f);
-    color:var(--text);min-height:100vh;padding:10px;
+    color:var(--text);min-height:100vh;padding:6px;
     background-attachment:fixed;}
-  /* 星のドット背景 */
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
     background-image:
       radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,.7), transparent),
@@ -32,92 +31,90 @@
       radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.5), transparent),
       radial-gradient(1px 1px at 60% 88%, rgba(255,255,255,.4), transparent);}
   .wrap{max-width:560px;margin:0 auto;position:relative;z-index:1;}
-  h1{font-family:"Dela Gothic One",sans-serif;font-size:1.15rem;text-align:center;margin:6px 0 2px;
-    color:var(--accent);text-shadow:2px 2px 0 #000,3px 3px 0 #6a4b00;letter-spacing:.5px;}
+  h1{font-family:"Dela Gothic One",sans-serif;font-size:.98rem;text-align:center;margin:4px 0 8px;
+    color:var(--accent);text-shadow:2px 2px 0 #000,3px 3px 0 #6a4b00;letter-spacing:.3px;}
   h1 span{color:#fff;text-shadow:2px 2px 0 #000,3px 3px 0 #163a8a;}
-  .sub-title{text-align:center;color:var(--accent2);font-size:.7rem;margin-bottom:12px;
-    text-shadow:1px 1px 0 #000;}
-  /* ドラクエ風メッセージウィンドウ：黒地に白い角丸二重枠 */
   .card{position:relative;background:linear-gradient(180deg,#0b1c46,#08163a);
-    border:3px solid var(--frame);border-radius:14px;
-    padding:14px 13px 13px;margin-bottom:13px;
-    box-shadow:0 0 0 2px #000, 0 4px 14px rgba(0,0,0,.5), inset 0 0 0 2px #1a2f6e;}
-  .card h2{font-family:"Dela Gothic One",sans-serif;font-size:.86rem;margin:0 0 11px;
-    color:var(--accent);text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:6px;}
-  .card h2::before{content:"▶";color:var(--accent2);font-size:.7rem;}
-  label{display:block;font-size:.74rem;color:var(--accent2);margin:9px 0 4px;text-shadow:1px 1px 0 #000;}
-  input[type=number]{width:100%;padding:8px;border-radius:6px;border:2px solid var(--frame);
-    background:#020a22;color:var(--accent);font-family:inherit;font-size:.95rem;font-weight:bold;
+    border:3px solid var(--frame);border-radius:12px;
+    padding:9px 10px;margin-bottom:9px;
+    box-shadow:0 0 0 2px #000, 0 3px 10px rgba(0,0,0,.5), inset 0 0 0 2px #1a2f6e;}
+  .card h2{font-family:"Dela Gothic One",sans-serif;font-size:.78rem;margin:0 0 7px;
+    color:var(--accent);text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:5px;}
+  .card h2::before{content:"▶";color:var(--accent2);font-size:.62rem;}
+  .card h2 small{font-family:inherit;font-size:.66rem;color:var(--accent2);font-weight:normal;}
+  label{display:block;font-size:.7rem;color:var(--accent2);margin:7px 0 3px;text-shadow:1px 1px 0 #000;}
+  input[type=number]{width:100%;padding:6px;border-radius:6px;border:2px solid var(--frame);
+    background:#020a22;color:var(--accent);font-family:inherit;font-size:.92rem;font-weight:bold;
     box-shadow:inset 0 0 0 1px #000;}
   input:focus{outline:none;border-color:var(--accent);}
-  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-  .grid .col{background:#091a44;border:2px solid #2b4796;border-radius:8px;padding:6px 4px;text-align:center;}
-  .grid .col .rk{font-family:"Dela Gothic One",sans-serif;font-size:1rem;text-shadow:1px 1px 0 #000;}
+  .row2{display:flex;gap:8px;align-items:flex-end;}
+  .row2 > div{flex:1;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+  .grid .col{background:#091a44;border:2px solid #2b4796;border-radius:7px;padding:4px 3px;text-align:center;}
+  .grid .col .rk{font-family:"Dela Gothic One",sans-serif;font-size:.92rem;text-shadow:1px 1px 0 #000;}
   .rk.D{color:#c3d2f5;} .rk.C{color:#88e8a0;} .rk.B{color:#7fd4ff;}
   .rk.A{color:#d9b3ff;} .rk.S{color:var(--accent);}
-  .grid .col input{margin-top:5px;text-align:center;padding:6px 2px;}
-  .btn{font-family:"Dela Gothic One",sans-serif;border:2px solid var(--frame);border-radius:8px;
-    padding:10px 16px;font-size:.82rem;cursor:pointer;text-shadow:1px 1px 0 rgba(0,0,0,.4);
+  .grid .col input{margin-top:3px;text-align:center;padding:4px 2px;}
+  .btn{font-family:"Dela Gothic One",sans-serif;border:2px solid var(--frame);border-radius:7px;
+    padding:8px 14px;font-size:.78rem;cursor:pointer;text-shadow:1px 1px 0 rgba(0,0,0,.4);
     box-shadow:0 3px 0 #000;transition:transform .05s,box-shadow .05s;}
   .btn:active{transform:translateY(3px);box-shadow:0 0 0 #000;}
   .btn.primary{background:linear-gradient(180deg,#ffe773,#ffcf2e);color:#3a2a00;}
   .btn.ghost{background:linear-gradient(180deg,#1c3370,#13245c);color:var(--accent2);}
-  .btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px;}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
   .result{background:linear-gradient(135deg,#0c2358,#15306e);border:2px solid var(--accent2);
-    border-radius:10px;padding:13px;text-align:center;margin-top:8px;box-shadow:inset 0 0 12px rgba(127,212,255,.15);}
-  .result .big{font-family:"Dela Gothic One",sans-serif;font-size:2rem;color:var(--accent);
-    line-height:1.1;text-shadow:2px 2px 0 #000,0 0 10px rgba(255,225,77,.4);}
-  .result .big small{font-size:.9rem;color:var(--text);text-shadow:1px 1px 0 #000;}
-  .result .lbl{color:var(--accent2);font-size:.74rem;margin-bottom:6px;text-shadow:1px 1px 0 #000;}
-  .chain{font-size:.72rem;color:var(--sub);margin-top:9px;line-height:1.7;text-shadow:1px 1px 0 #000;}
+    border-radius:9px;padding:10px;text-align:center;margin-top:6px;box-shadow:inset 0 0 12px rgba(127,212,255,.15);}
+  .result .big{font-family:"Dela Gothic One",sans-serif;font-size:1.8rem;color:var(--accent);
+    line-height:1.05;text-shadow:2px 2px 0 #000,0 0 10px rgba(255,225,77,.4);}
+  .result .big small{font-size:.85rem;color:var(--text);text-shadow:1px 1px 0 #000;}
+  .result .lbl{color:var(--accent2);font-size:.72rem;margin-bottom:4px;text-shadow:1px 1px 0 #000;}
+  .chain{font-size:.68rem;color:var(--sub);margin-top:7px;line-height:1.55;text-shadow:1px 1px 0 #000;}
   .chain b{color:var(--accent);}
-  .breakdown{font-size:.72rem;color:var(--sub);margin-top:9px;line-height:1.8;
-    background:#020a22;border:1px solid #2b4796;border-radius:6px;padding:9px 11px;text-shadow:1px 1px 0 #000;}
+  .breakdown{font-size:.68rem;color:var(--sub);margin-top:7px;line-height:1.6;
+    background:#020a22;border:1px solid #2b4796;border-radius:6px;padding:7px 9px;text-shadow:1px 1px 0 #000;}
   .breakdown b{color:var(--ok);}
-  .cat-tab{display:flex;gap:6px;margin:2px 0 8px;}
+  .cat-tab{display:flex;gap:5px;margin:2px 0 6px;}
   .cat-tab button{flex:1;font-family:inherit;font-weight:bold;background:#0c1f4e;
-    border:2px solid #2b4796;color:var(--sub);border-radius:7px;padding:7px 4px;font-size:.74rem;
+    border:2px solid #2b4796;color:var(--sub);border-radius:6px;padding:5px 4px;font-size:.72rem;
     cursor:pointer;text-shadow:1px 1px 0 #000;}
   .cat-tab button.act{background:linear-gradient(180deg,#1c3370,#13245c);color:var(--accent);
     border-color:var(--accent);}
-  .mem-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:7px;margin-top:4px;}
-  .mem-opt{background:#091a44;border:2px solid #2b4796;border-radius:8px;
-    padding:4px 2px;text-align:center;cursor:pointer;transition:.12s;}
+  .mem-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px;margin-top:2px;}
+  .mem-opt{background:#091a44;border:2px solid #2b4796;border-radius:7px;
+    padding:3px 2px;text-align:center;cursor:pointer;transition:.12s;}
   .mem-opt:hover{border-color:var(--accent2);}
   .mem-opt.sel{border-color:var(--accent);background:#15306e;box-shadow:0 0 8px rgba(255,225,77,.5);}
   .mem-opt.hokora{box-shadow:inset 0 0 0 2px var(--hokora);}
-  .mem-opt img{width:42px;height:42px;object-fit:contain;border-radius:6px;background:#020a22;}
-  .mem-opt .nm{font-size:.6rem;color:var(--text);margin-top:3px;line-height:1.15;display:block;text-shadow:1px 1px 0 #000;}
-  .mem-opt .tag{font-size:.52rem;color:var(--hokora);display:block;line-height:1.1;}
-  .picked{display:flex;align-items:center;gap:9px;background:#020a22;border:2px solid #2b4796;
-    border-radius:8px;padding:8px 10px;margin-top:8px;min-height:50px;}
-  .picked img{width:42px;height:42px;object-fit:contain;border-radius:6px;}
-  .picked .pn{font-family:"Dela Gothic One",sans-serif;color:var(--accent);font-size:.85rem;text-shadow:1px 1px 0 #000;}
-  .picked .pl{font-size:.7rem;color:var(--accent2);text-shadow:1px 1px 0 #000;}
-  .picked .none{color:var(--sub);font-size:.74rem;}
-  .saved-item{background:#091a44;border:2px solid #2b4796;border-radius:8px;padding:8px 10px;
-    margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
-  .saved-item .info{font-size:.78rem;display:flex;align-items:center;gap:8px;}
-  .saved-item .info img{width:36px;height:36px;object-fit:contain;border-radius:6px;background:#020a22;flex-shrink:0;}
+  .mem-opt img{width:38px;height:38px;object-fit:contain;border-radius:5px;background:#020a22;}
+  .mem-opt .nm{font-size:.56rem;color:var(--text);margin-top:2px;line-height:1.1;display:block;text-shadow:1px 1px 0 #000;}
+  .mem-opt .tag{font-size:.5rem;color:var(--hokora);display:block;line-height:1;}
+  .picked{display:flex;align-items:center;gap:8px;background:#020a22;border:2px solid #2b4796;
+    border-radius:7px;padding:6px 9px;margin-top:6px;min-height:46px;}
+  .picked img{width:38px;height:38px;object-fit:contain;border-radius:5px;}
+  .picked .pn{font-family:"Dela Gothic One",sans-serif;color:var(--accent);font-size:.8rem;text-shadow:1px 1px 0 #000;}
+  .picked .pl{font-size:.66rem;color:var(--accent2);text-shadow:1px 1px 0 #000;}
+  .picked .none{color:var(--sub);font-size:.7rem;}
+  .saved-item{background:#091a44;border:2px solid #2b4796;border-radius:7px;padding:6px 9px;
+    margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
+  .saved-item .info{font-size:.74rem;display:flex;align-items:center;gap:7px;}
+  .saved-item .info img{width:32px;height:32px;object-fit:contain;border-radius:5px;background:#020a22;flex-shrink:0;}
   .saved-item .info .nm{font-weight:bold;color:var(--accent);text-shadow:1px 1px 0 #000;}
-  .saved-item .info .dt{color:var(--sub);font-size:.68rem;}
-  .saved-item .need{color:var(--ok);font-weight:bold;font-size:.84rem;text-align:right;text-shadow:1px 1px 0 #000;}
-  .del{background:none;border:none;color:#ff8fa0;cursor:pointer;font-size:1.1rem;padding:2px 6px;}
-  .note{font-size:.66rem;color:var(--sub);margin-top:7px;line-height:1.5;text-shadow:1px 1px 0 #000;}
-  .ref{font-size:.68rem;color:var(--sub);line-height:1.9;text-shadow:1px 1px 0 #000;}
+  .saved-item .info .dt{color:var(--sub);font-size:.64rem;}
+  .saved-item .need{color:var(--ok);font-weight:bold;font-size:.8rem;text-align:right;text-shadow:1px 1px 0 #000;}
+  .del{background:none;border:none;color:#ff8fa0;cursor:pointer;font-size:1rem;padding:2px 5px;}
+  .note{font-size:.62rem;color:var(--sub);margin-top:6px;line-height:1.45;text-shadow:1px 1px 0 #000;}
+  .ref{font-size:.64rem;color:var(--sub);line-height:1.8;text-shadow:1px 1px 0 #000;}
   .ref a{color:var(--accent2);word-break:break-all;}
-  .footer{text-align:center;color:var(--sub);font-size:.62rem;margin:4px 0 14px;text-shadow:1px 1px 0 #000;}
-  @media(max-width:420px){.grid{grid-template-columns:repeat(4,1fr);gap:5px;} .result .big{font-size:1.75rem;}}
+  .footer{text-align:center;color:var(--sub);font-size:.6rem;margin:2px 0 10px;text-shadow:1px 1px 0 #000;}
+  @media(max-width:420px){.grid{grid-template-columns:repeat(4,1fr);gap:4px;} .result .big{font-size:1.6rem;}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>＊<span>スマグロ</span>＊<br>メモリ ランクアップ計算機</h1>
-  <p class="sub-title">▼ D→C→B→A→S を目指すための必要枚数を計算 ▼</p>
+  <h1><span>スマグロ</span> メモリ ランクアップ計算機</h1>
 
   <div class="card">
-    <h2>メモリ情報を入力</h2>
-    <label>メモリを画像から選択</label>
+    <h2>メモリ情報を入力<small>（画像から選択）</small></h2>
     <div class="cat-tab">
       <button type="button" id="tabNormal" class="act">つうじょう周回</button>
       <button type="button" id="tabHokora">ほこらクエスト</button>
@@ -125,7 +122,14 @@
     <div class="mem-picker" id="memPicker"></div>
     <div class="picked" id="pickedBox"><span class="none">＊ 計算したいメモリをえらんでください</span></div>
 
-    <label style="margin-top:10px;">現在の所持枚数を入力</label>
+    <div class="row2" style="margin-top:8px;">
+      <div>
+        <label style="margin-top:0;">目標：作りたいSの枚数</label>
+        <input type="number" id="goalS" min="1" value="1">
+      </div>
+    </div>
+
+    <label>現在の所持枚数</label>
     <div class="grid">
       <div class="col"><div class="rk D">D</div><input type="number" id="have_D" min="0" value="0"></div>
       <div class="col"><div class="rk C">C</div><input type="number" id="have_C" min="0" value="0"></div>
@@ -133,12 +137,9 @@
       <div class="col"><div class="rk A">A</div><input type="number" id="have_A" min="0" value="0"></div>
     </div>
 
-    <label style="margin-top:10px;">目標：作りたいSランクの枚数</label>
-    <input type="number" id="goalS" min="1" value="1">
-
     <div class="btn-row">
       <button type="button" class="btn primary" id="btnCalc">けいさんする</button>
-      <button type="button" class="btn ghost" id="btnSave">このけっかをほぞん</button>
+      <button type="button" class="btn ghost" id="btnSave">ほぞん</button>
     </div>
   </div>
 
@@ -158,7 +159,7 @@
     <div class="btn-row">
       <button type="button" class="btn ghost" id="btnClear">ぜんぶ消す</button>
     </div>
-    <p class="note">※ データはこの端末のブラウザ内（localStorage）に保存されます。</p>
+    <p class="note">※ データはこの端末のブラウザ内に保存されます。</p>
   </div>
 
   <div class="card">
@@ -201,7 +202,7 @@ var HOKORA = [
 function imgFallback(el, name){
   el.onerror = null;
   var c = document.createElement('div');
-  c.style.cssText = 'width:42px;height:42px;border-radius:6px;background:#15306e;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#ffe14d;font-weight:bold;text-align:center;';
+  c.style.cssText = 'width:38px;height:38px;border-radius:5px;background:#15306e;display:flex;align-items:center;justify-content:center;font-size:.56rem;color:#ffe14d;font-weight:bold;text-align:center;';
   c.textContent = name.slice(0,3);
   el.parentNode.replaceChild(c, el);
 }
