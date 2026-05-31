@@ -32,36 +32,64 @@
       radial-gradient(1px 1px at 60% 88%, rgba(255,255,255,.4), transparent);}
   .wrap{max-width:560px;margin:0 auto;position:relative;z-index:1;}
   h1{font-family:"Dela Gothic One",sans-serif;font-size:.98rem;text-align:center;margin:4px 0 8px;
-    color:var(--accent);text-shadow:2px 2px 0 #000,3px 3px 0 #6a4b00;letter-spacing:.3px;}
+    color:var(--accent);text-shadow:2px 2px 0 #000,3px 3px 0 #6a4b00;letter-spacing:.3px;
+    display:flex;align-items:center;justify-content:center;gap:6px;}
   h1 span{color:#fff;text-shadow:2px 2px 0 #000,3px 3px 0 #163a8a;}
-  .card{position:relative;background:linear-gradient(180deg,#0b1c46,#08163a);
+  h1 .mon{width:24px;height:24px;object-fit:contain;
+    filter:drop-shadow(1px 1px 0 #000);animation:bob 2.4s ease-in-out infinite;}
+  h1 .mon:last-child{animation-delay:.6s;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+  .card{position:relative;overflow:hidden;background:linear-gradient(180deg,#0b1c46,#08163a);
     border:3px solid var(--frame);border-radius:12px;
     padding:9px 10px;margin-bottom:9px;
     box-shadow:0 0 0 2px #000, 0 3px 10px rgba(0,0,0,.5), inset 0 0 0 2px #1a2f6e;}
+  /* カード隅に散りばめるモンスター装飾 */
+  .card .deco{position:absolute;pointer-events:none;z-index:0;opacity:.10;
+    width:64px;height:64px;object-fit:contain;}
+  .card .deco.tr{top:-12px;right:-10px;transform:rotate(12deg);}
+  .card .deco.bl{bottom:-14px;left:-12px;transform:rotate(-10deg);width:54px;height:54px;}
+  .card > *:not(.deco){position:relative;z-index:1;}
+
   .card h2{font-family:"Dela Gothic One",sans-serif;font-size:.78rem;margin:0 0 7px;
-    color:var(--accent);text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:5px;}
-  .card h2::before{content:"▶";color:var(--accent2);font-size:.62rem;}
-  .card h2 small{font-family:inherit;font-size:.66rem;color:var(--accent2);font-weight:normal;}
+    color:var(--accent);text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .card h2 .hmon{width:18px;height:18px;object-fit:contain;filter:drop-shadow(1px 1px 0 #000);}
+  .card h2 small{font-family:inherit;font-size:.64rem;color:var(--accent2);font-weight:normal;}
   label{display:block;font-size:.7rem;color:var(--accent2);margin:7px 0 3px;text-shadow:1px 1px 0 #000;}
-  input[type=number]{width:100%;padding:6px;border-radius:6px;border:2px solid var(--frame);
-    background:#020a22;color:var(--accent);font-family:inherit;font-size:.92rem;font-weight:bold;
-    box-shadow:inset 0 0 0 1px #000;}
-  input:focus{outline:none;border-color:var(--accent);}
-  .row2{display:flex;gap:8px;align-items:flex-end;}
-  .row2 > div{flex:1;}
+  .stepper{display:flex;align-items:stretch;gap:0;}
+  .stepper input[type=number]{width:100%;padding:5px 1px;border-radius:0;border:2px solid var(--frame);
+    border-left:none;border-right:none;background:#020a22;color:var(--accent);font-family:inherit;
+    font-size:.92rem;font-weight:bold;text-align:center;-moz-appearance:textfield;min-width:0;}
+  .stepper input::-webkit-outer-spin-button,
+  .stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .stepper input:focus{outline:none;}
+  .stepper .sb{font-family:"Dela Gothic One",sans-serif;background:linear-gradient(180deg,#1c3370,#13245c);
+    color:var(--accent);border:2px solid var(--frame);width:26px;flex-shrink:0;cursor:pointer;
+    font-size:.95rem;line-height:1;user-select:none;padding:0;}
+  .stepper .sb:first-child{border-radius:6px 0 0 6px;}
+  .stepper .sb:last-child{border-radius:0 6px 6px 0;}
+  .stepper .sb:active{background:#0c1f4e;}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
   .grid .col{background:#091a44;border:2px solid #2b4796;border-radius:7px;padding:4px 3px;text-align:center;}
-  .grid .col .rk{font-family:"Dela Gothic One",sans-serif;font-size:.92rem;text-shadow:1px 1px 0 #000;}
+  .grid .col .rk{font-family:"Dela Gothic One",sans-serif;font-size:.85rem;text-shadow:1px 1px 0 #000;margin-bottom:3px;}
   .rk.D{color:#c3d2f5;} .rk.C{color:#88e8a0;} .rk.B{color:#7fd4ff;}
   .rk.A{color:#d9b3ff;} .rk.S{color:var(--accent);}
-  .grid .col input{margin-top:3px;text-align:center;padding:4px 2px;}
+
+  /* 選んだメモリ枠 ＋ 目標Sを1段に */
+  .pick-goal{display:flex;gap:8px;align-items:stretch;margin-top:6px;}
+  .pick-goal .picked{flex:1;min-width:0;margin-top:0;}
+  .pick-goal .goalbox{flex-shrink:0;width:128px;display:flex;flex-direction:column;justify-content:center;}
+  .pick-goal .goalbox label{margin:0 0 3px;font-size:.62rem;line-height:1.2;}
+
   .btn{font-family:"Dela Gothic One",sans-serif;border:2px solid var(--frame);border-radius:7px;
-    padding:8px 14px;font-size:.78rem;cursor:pointer;text-shadow:1px 1px 0 rgba(0,0,0,.4);
+    padding:8px 13px;font-size:.76rem;cursor:pointer;text-shadow:1px 1px 0 rgba(0,0,0,.4);
     box-shadow:0 3px 0 #000;transition:transform .05s,box-shadow .05s;}
   .btn:active{transform:translateY(3px);box-shadow:0 0 0 #000;}
   .btn.primary{background:linear-gradient(180deg,#ffe773,#ffcf2e);color:#3a2a00;}
   .btn.ghost{background:linear-gradient(180deg,#1c3370,#13245c);color:var(--accent2);}
-  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .btn.reset{background:linear-gradient(180deg,#5e2740,#451c30);color:#ffb3c4;}
+  .btn-row{display:flex;gap:8px;align-items:center;margin-top:10px;}
+  .btn-row .spacer{flex:1;}
   .result{background:linear-gradient(135deg,#0c2358,#15306e);border:2px solid var(--accent2);
     border-radius:9px;padding:10px;text-align:center;margin-top:6px;box-shadow:inset 0 0 12px rgba(127,212,255,.15);}
   .result .big{font-family:"Dela Gothic One",sans-serif;font-size:1.8rem;color:var(--accent);
@@ -89,13 +117,14 @@
   .mem-opt .nm{font-size:.56rem;color:var(--text);margin-top:2px;line-height:1.1;display:block;text-shadow:1px 1px 0 #000;}
   .mem-opt .tag{font-size:.5rem;color:var(--hokora);display:block;line-height:1;}
   .picked{display:flex;align-items:center;gap:8px;background:#020a22;border:2px solid #2b4796;
-    border-radius:7px;padding:6px 9px;margin-top:6px;min-height:46px;}
-  .picked img{width:38px;height:38px;object-fit:contain;border-radius:5px;}
-  .picked .pn{font-family:"Dela Gothic One",sans-serif;color:var(--accent);font-size:.8rem;text-shadow:1px 1px 0 #000;}
-  .picked .pl{font-size:.66rem;color:var(--accent2);text-shadow:1px 1px 0 #000;}
-  .picked .none{color:var(--sub);font-size:.7rem;}
+    border-radius:7px;padding:6px 9px;min-height:46px;}
+  .picked img{width:38px;height:38px;object-fit:contain;border-radius:5px;flex-shrink:0;}
+  .picked .pn{font-family:"Dela Gothic One",sans-serif;color:var(--accent);font-size:.76rem;text-shadow:1px 1px 0 #000;}
+  .picked .pl{font-size:.62rem;color:var(--accent2);text-shadow:1px 1px 0 #000;line-height:1.3;}
+  .picked .none{color:var(--sub);font-size:.66rem;}
   .saved-item{background:#091a44;border:2px solid #2b4796;border-radius:7px;padding:6px 9px;
-    margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
+    margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:6px;cursor:pointer;transition:.12s;}
+  .saved-item:hover{border-color:var(--accent2);background:#0c2358;}
   .saved-item .info{font-size:.74rem;display:flex;align-items:center;gap:7px;}
   .saved-item .info img{width:32px;height:32px;object-fit:contain;border-radius:5px;background:#020a22;flex-shrink:0;}
   .saved-item .info .nm{font-weight:bold;color:var(--accent);text-shadow:1px 1px 0 #000;}
@@ -105,46 +134,84 @@
   .note{font-size:.62rem;color:var(--sub);margin-top:6px;line-height:1.45;text-shadow:1px 1px 0 #000;}
   .ref{font-size:.64rem;color:var(--sub);line-height:1.8;text-shadow:1px 1px 0 #000;}
   .ref a{color:var(--accent2);word-break:break-all;}
-  .footer{text-align:center;color:var(--sub);font-size:.6rem;margin:2px 0 10px;text-shadow:1px 1px 0 #000;}
-  @media(max-width:420px){.grid{grid-template-columns:repeat(4,1fr);gap:4px;} .result .big{font-size:1.6rem;}}
+  .footer{text-align:center;color:var(--sub);font-size:.6rem;margin:2px 0 10px;text-shadow:1px 1px 0 #000;
+    display:flex;align-items:center;justify-content:center;gap:6px;}
+  .footer img{width:16px;height:16px;object-fit:contain;opacity:.8;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1><span>スマグロ</span> メモリ ランクアップ計算機</h1>
+  <h1>
+    <img class="mon" src="https://img.game8.jp/12590454/24e4810851729b5bca428c8e7ce56365/original" alt="">
+    <span>スマグロ</span> メモリ ランクアップ計算機
+    <img class="mon" src="https://img.game8.jp/12590449/267316dc9e7c74e063a0f12894fdcff6/original" alt="">
+  </h1>
 
   <div class="card">
-    <h2>メモリ情報を入力<small>（画像から選択）</small></h2>
+    <img class="deco tr" src="https://img.game8.jp/12590521/b6a2d348a649d42db4b248dce584b963/original" alt="">
+    <img class="deco bl" src="https://img.game8.jp/12590468/673660fb86ac3f1ea5e53246b905e0f6/original" alt="">
+    <h2><img class="hmon" src="https://img.game8.jp/12590454/24e4810851729b5bca428c8e7ce56365/original" alt="">メモリ情報を入力<small>（画像から選択）</small></h2>
     <div class="cat-tab">
       <button type="button" id="tabNormal" class="act">つうじょう周回</button>
       <button type="button" id="tabHokora">ほこらクエスト</button>
     </div>
     <div class="mem-picker" id="memPicker"></div>
-    <div class="picked" id="pickedBox"><span class="none">＊ 計算したいメモリをえらんでください</span></div>
 
-    <div class="row2" style="margin-top:8px;">
-      <div>
-        <label style="margin-top:0;">目標：作りたいSの枚数</label>
-        <input type="number" id="goalS" min="1" value="1">
+    <div class="pick-goal">
+      <div class="picked" id="pickedBox"><span class="none">＊ 計算したいメモリをえらんでください</span></div>
+      <div class="goalbox">
+        <label>目標：作りたいSの枚数</label>
+        <div class="stepper">
+          <button type="button" class="sb" data-step="goalS" data-d="-1">−</button>
+          <input type="number" id="goalS" min="1" placeholder="1">
+          <button type="button" class="sb" data-step="goalS" data-d="1">＋</button>
+        </div>
       </div>
     </div>
 
     <label>現在の所持枚数</label>
     <div class="grid">
-      <div class="col"><div class="rk D">D</div><input type="number" id="have_D" min="0" value="0"></div>
-      <div class="col"><div class="rk C">C</div><input type="number" id="have_C" min="0" value="0"></div>
-      <div class="col"><div class="rk B">B</div><input type="number" id="have_B" min="0" value="0"></div>
-      <div class="col"><div class="rk A">A</div><input type="number" id="have_A" min="0" value="0"></div>
+      <div class="col"><div class="rk D">D</div>
+        <div class="stepper">
+          <button type="button" class="sb" data-step="have_D" data-d="-1">−</button>
+          <input type="number" id="have_D" min="0" placeholder="0">
+          <button type="button" class="sb" data-step="have_D" data-d="1">＋</button>
+        </div>
+      </div>
+      <div class="col"><div class="rk C">C</div>
+        <div class="stepper">
+          <button type="button" class="sb" data-step="have_C" data-d="-1">−</button>
+          <input type="number" id="have_C" min="0" placeholder="0">
+          <button type="button" class="sb" data-step="have_C" data-d="1">＋</button>
+        </div>
+      </div>
+      <div class="col"><div class="rk B">B</div>
+        <div class="stepper">
+          <button type="button" class="sb" data-step="have_B" data-d="-1">−</button>
+          <input type="number" id="have_B" min="0" placeholder="0">
+          <button type="button" class="sb" data-step="have_B" data-d="1">＋</button>
+        </div>
+      </div>
+      <div class="col"><div class="rk A">A</div>
+        <div class="stepper">
+          <button type="button" class="sb" data-step="have_A" data-d="-1">−</button>
+          <input type="number" id="have_A" min="0" placeholder="0">
+          <button type="button" class="sb" data-step="have_A" data-d="1">＋</button>
+        </div>
+      </div>
     </div>
 
     <div class="btn-row">
       <button type="button" class="btn primary" id="btnCalc">けいさんする</button>
       <button type="button" class="btn ghost" id="btnSave">ほぞん</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn reset" id="btnReset">リセット</button>
     </div>
   </div>
 
   <div class="card" id="resultCard" style="display:none;">
-    <h2>計算結果</h2>
+    <img class="deco tr" src="https://img.game8.jp/12590495/f4560da4f47e6994a5ac05e868dee5e0/original" alt="">
+    <h2><img class="hmon" src="https://img.game8.jp/12590546/b67e9bbce7bb6b848430a029351199ef/original" alt="">計算結果</h2>
     <div class="result">
       <div class="lbl">のこり必要なDランクメモリ</div>
       <div class="big" id="needD">0<small> 枚</small></div>
@@ -154,23 +221,25 @@
   </div>
 
   <div class="card">
-    <h2>保存したメモリ一覧</h2>
-    <div id="savedList"><p class="note">＊ まだ保存されたメモリはありません。</p></div>
-    <div class="btn-row">
-      <button type="button" class="btn ghost" id="btnClear">ぜんぶ消す</button>
-    </div>
-    <p class="note">※ データはこの端末のブラウザ内に保存されます。</p>
+    <img class="deco bl" src="https://img.game8.jp/12590543/59166e3d37e835b3e5590ccde6d4aefe/original" alt="">
+    <h2><img class="hmon" src="https://img.game8.jp/12590507/110dab500a595fcd3cdd0d832ff3c199/original" alt="">保存メモリ一覧<small>※ タップすると呼び出せます。</small></h2>
+    <div id="savedList"><p class="note" style="margin-top:0;">＊ まだ保存されたメモリはありません。</p></div>
   </div>
 
   <div class="card">
-    <h2>参照元</h2>
+    <img class="deco tr" src="https://img.game8.jp/12590525/73466b83a7298b8f044653256672fd12/original" alt="">
+    <h2><img class="hmon" src="https://img.game8.jp/12590520/c866644a9fe0816d724280312b138ade/original" alt="">参照元</h2>
     <p class="ref">
       ・メモリ周回おすすめ：<a href="https://game8.jp/dqsmashgrow/780878" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/780878</a><br>
       ・ほこらクエスト攻略一覧：<a href="https://game8.jp/dqsmashgrow/781407" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/781407</a>
     </p>
   </div>
 
-  <p class="footer">＊ ぼうけんのしょは このたんまつに きろくされます ＊</p>
+  <p class="footer">
+    <img src="https://img.game8.jp/12590454/24e4810851729b5bca428c8e7ce56365/original" alt="">
+    ＊ ぼうけんのしょは このたんまつに きろくされます ＊
+    <img src="https://img.game8.jp/12590449/267316dc9e7c74e063a0f12894fdcff6/original" alt="">
+  </p>
 </div>
 
 <script>
@@ -208,9 +277,7 @@ function imgFallback(el, name){
 var currentCat = 'normal';
 var selectedId = null;
 
-function allMems(){
-  return MEMORIES.concat(HOKORA);
-}
+function allMems(){ return MEMORIES.concat(HOKORA); }
 function findMem(id){
   var all = allMems();
   for(var i=0;i<all.length;i++){ if(all[i].id===id) return all[i]; }
@@ -243,7 +310,10 @@ function setCat(cat){
   buildPicker();
 }
 
-function selectMem(id){
+// メモリを選択（手動クリック時はD〜Aを0クリア）
+function selectMem(id, keepCounts){
+  var sw = isHokora(id) ? 'hokora' : 'normal';
+  if(sw !== currentCat){ setCat(sw); }
   selectedId = id;
   var opts = document.querySelectorAll('.mem-opt');
   for(var i=0;i<opts.length;i++){
@@ -254,11 +324,35 @@ function selectMem(id){
   var lbl = isHokora(id) ? '入手場所' : 'おすすめ周回場所';
   pb.innerHTML = '<img src="'+m.img+'" alt="'+m.name+'" onerror="imgFallback(this,\''+m.name+'\')">' +
     '<div><div class="pn">'+m.name+'</div><div class="pl">'+lbl+'：'+m.loc+'</div></div>';
+  if(!keepCounts){ clearCounts(); }
+}
+
+function clearCounts(){
+  document.getElementById('have_D').value = '';
+  document.getElementById('have_C').value = '';
+  document.getElementById('have_B').value = '';
+  document.getElementById('have_A').value = '';
+}
+function resetAll(){
+  clearCounts();
+  document.getElementById('goalS').value = '';
+  document.getElementById('resultCard').style.display = 'none';
+}
+
+// ステッパー
+function stepField(id, delta){
+  var el = document.getElementById(id);
+  var min = (id === 'goalS') ? 1 : 0;
+  var cur = parseFloat(el.value);
+  if(isNaN(cur)) cur = (id === 'goalS') ? 1 : 0;
+  var next = cur + delta;
+  if(next < min) next = min;
+  el.value = next;
 }
 
 // === 計算ロジック ===
 // 法則：D3枚→C1枚 / C3枚→B1枚 / B4枚→A1枚 / A5枚→S1枚
-// 各ランクをD換算すると：D=1 / C=3 / B=3×3=9 / A=3×3×4=36 / S=3×3×4×5=180
+// 各ランクをD換算すると：D=1 / C=3 / B=9 / A=36 / S=180
 var COST = { S:180, A:36, B:9, C:3, D:1 };
 function num(id){
   var v = parseFloat(document.getElementById(id).value);
@@ -279,9 +373,9 @@ function calc(){
   document.getElementById('needD').innerHTML = remain.toLocaleString() + '<small> 枚</small>';
   document.getElementById('breakdown').innerHTML =
     '【所持のD換算 内訳】<br>' +
-    'D ' + h.D + '枚 ＝ ' + h.D + '<br>' +
-    'C ' + h.C + '枚 × 3 ＝ ' + (h.C*COST.C) + '<br>' +
-    'B ' + h.B + '枚 × 9 ＝ ' + (h.B*COST.B) + '<br>' +
+    'D ' + h.D + '枚 ＝ ' + h.D + '、' +
+    'C ' + h.C + '枚 × 3 ＝ ' + (h.C*COST.C) + '、' +
+    'B ' + h.B + '枚 × 9 ＝ ' + (h.B*COST.B) + '、' +
     'A ' + h.A + '枚 × 36 ＝ ' + (h.A*COST.A) + '<br>' +
     '合計：<b>' + haveD.toLocaleString() + '枚分</b>';
   document.getElementById('chainTxt').innerHTML =
@@ -312,17 +406,26 @@ function delItem(id){
   localStorage.setItem('smagloMemos', JSON.stringify(list));
   render();
 }
-function clearAll(){
-  if(confirm('保存したメモリを全て削除しますか？')){
-    localStorage.removeItem('smagloMemos');
-    render();
-  }
+// 保存リストを入力欄に呼び出す
+function loadItemToInputs(id){
+  var list = loadList();
+  var x = null;
+  for(var i=0;i<list.length;i++){ if(list[i].id===id){ x = list[i]; break; } }
+  if(!x) return;
+  if(x.memId && findMem(x.memId)){ selectMem(x.memId, true); }
+  document.getElementById('have_D').value = x.have.D || 0;
+  document.getElementById('have_C').value = x.have.C || 0;
+  document.getElementById('have_B').value = x.have.B || 0;
+  document.getElementById('have_A').value = x.have.A || 0;
+  document.getElementById('goalS').value = x.goalS || 1;
+  calc();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 function render(){
   var box = document.getElementById('savedList');
   var list = loadList();
   if(list.length === 0){
-    box.innerHTML = '<p class="note">＊ まだ保存されたメモリはありません。</p>';
+    box.innerHTML = '<p class="note" style="margin-top:0;">＊ まだ保存されたメモリはありません。</p>';
     return;
   }
   var html = '';
@@ -330,14 +433,14 @@ function render(){
     var x = list[i];
     var h = x.have;
     var img = x.img ? '<img src="'+x.img+'" alt="'+x.name+'" onerror="imgFallback(this,\''+x.name+'\')">' : '';
-    html += '<div class="saved-item">' +
+    html += '<div class="saved-item" data-load="'+x.id+'">' +
       '<div class="info">' + img +
         '<div><div class="nm">' + x.name + '</div>' +
         '<div class="dt">所持 D' + h.D + '・C' + h.C + '・B' + h.B + '・A' + h.A + ' ／ 目標S' + x.goalS + '枚</div></div>' +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:6px;">' +
         '<div class="need">残りD ' + x.remain.toLocaleString() + '枚</div>' +
-        '<button class="del" data-id="' + x.id + '" title="削除">✕</button>' +
+        '<button class="del" data-del="' + x.id + '" title="削除">✕</button>' +
       '</div>' +
     '</div>';
   }
@@ -352,13 +455,20 @@ document.getElementById('memPicker').addEventListener('click', function(e){
   if(!opt) return;
   selectMem(opt.getAttribute('data-id'));
 });
+// ステッパーボタン
+document.querySelectorAll('.sb').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    stepField(btn.getAttribute('data-step'), parseInt(btn.getAttribute('data-d'),10));
+  });
+});
 document.getElementById('btnCalc').addEventListener('click', calc);
 document.getElementById('btnSave').addEventListener('click', saveItem);
-document.getElementById('btnClear').addEventListener('click', clearAll);
+document.getElementById('btnReset').addEventListener('click', resetAll);
 document.getElementById('savedList').addEventListener('click', function(e){
-  if(e.target && e.target.classList.contains('del')){
-    delItem(parseInt(e.target.getAttribute('data-id'), 10));
-  }
+  var del = e.target.closest('[data-del]');
+  if(del){ e.stopPropagation(); delItem(parseInt(del.getAttribute('data-del'),10)); return; }
+  var row = e.target.closest('[data-load]');
+  if(row){ loadItemToInputs(parseInt(row.getAttribute('data-load'),10)); }
 });
 render();
 </script>
