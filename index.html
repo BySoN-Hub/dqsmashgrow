@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ドラクエ スマッシュグロウ メモリ ランクアップ計算機</title>
-
 <style>
   :root{
     --dq-blue:#0a1a3f; --dq-blue2:#13245c; --win:#0b1c46;
     --frame:#ffffff; --accent:#ffe14d; --accent2:#7fd4ff; --text:#ffffff; --sub:#b9c8ee;
-    --ok:#7dffb0; --line:#3a55a8; --hokora:#d9b3ff;
+    --ok:#7dffb0; --line:#3a55a8; --hokora:#d9b3ff; --multi:#ffb37f;
   }
   *{box-sizing:border-box;}
   body{margin:0;
@@ -42,7 +41,6 @@
     border:3px solid var(--frame);border-radius:12px;
     padding:9px 10px;margin-bottom:9px;
     box-shadow:0 0 0 2px #000, 0 3px 10px rgba(0,0,0,.5), inset 0 0 0 2px #1a2f6e;}
-  /* カード隅に散りばめるモンスター装飾 */
   .card .deco{position:absolute;pointer-events:none;z-index:0;opacity:.10;
     width:64px;height:64px;object-fit:contain;}
   .card .deco.tr{top:-12px;right:-10px;transform:rotate(12deg);}
@@ -73,7 +71,6 @@
   .rk.D{color:#c3d2f5;} .rk.C{color:#88e8a0;} .rk.B{color:#7fd4ff;}
   .rk.A{color:#d9b3ff;} .rk.S{color:var(--accent);}
 
-  /* 選んだメモリ枠 ＋ 目標Sを1段に */
   .pick-goal{display:flex;gap:8px;align-items:stretch;margin-top:6px;}
   .pick-goal .picked{flex:1;min-width:0;margin-top:0;}
   .pick-goal .goalbox{flex-shrink:0;width:128px;display:flex;flex-direction:column;justify-content:center;}
@@ -101,7 +98,7 @@
   .breakdown b{color:var(--ok);}
   .cat-tab{display:flex;gap:5px;margin:2px 0 6px;}
   .cat-tab button{flex:1;font-family:Meiryo,"Yu Gothic",sans-serif;font-weight:bold;background:#0c1f4e;
-    border:2px solid #2b4796;color:var(--sub);border-radius:6px;padding:5px 4px;font-size:.72rem;
+    border:2px solid #2b4796;color:var(--sub);border-radius:6px;padding:5px 3px;font-size:.68rem;
     cursor:pointer;text-shadow:1px 1px 0 #000;}
   .cat-tab button.act{background:linear-gradient(180deg,#1c3370,#13245c);color:var(--accent);
     border-color:var(--accent);}
@@ -111,9 +108,11 @@
   .mem-opt:hover{border-color:var(--accent2);}
   .mem-opt.sel{border-color:var(--accent);background:#15306e;box-shadow:0 0 8px rgba(255,225,77,.5);}
   .mem-opt.hokora{box-shadow:inset 0 0 0 2px var(--hokora);}
+  .mem-opt.multi{box-shadow:inset 0 0 0 2px var(--multi);}
   .mem-opt img{width:38px;height:38px;object-fit:contain;border-radius:5px;background:#020a22;}
   .mem-opt .nm{font-size:.56rem;color:var(--text);margin-top:2px;line-height:1.1;display:block;text-shadow:1px 1px 0 #000;}
   .mem-opt .tag{font-size:.5rem;color:var(--hokora);display:block;line-height:1;}
+  .mem-opt.multi .tag{color:var(--multi);}
   .picked{display:flex;align-items:center;gap:8px;background:#020a22;border:2px solid #2b4796;
     border-radius:7px;padding:6px 9px;min-height:46px;}
   .picked img{width:38px;height:38px;object-fit:contain;border-radius:5px;flex-shrink:0;}
@@ -152,6 +151,7 @@
     <div class="cat-tab">
       <button type="button" id="tabNormal" class="act">つうじょう周回</button>
       <button type="button" id="tabHokora">ほこらクエスト</button>
+      <button type="button" id="tabMulti">マルチ</button>
     </div>
     <div class="mem-picker" id="memPicker"></div>
 
@@ -229,7 +229,8 @@
     <h2><img class="hmon" src="https://img.game8.jp/12590520/c866644a9fe0816d724280312b138ade/original" alt="">参照元</h2>
     <p class="ref">
       ・メモリ周回おすすめ：<a href="https://game8.jp/dqsmashgrow/780878" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/780878</a><br>
-      ・ほこらクエスト攻略一覧：<a href="https://game8.jp/dqsmashgrow/781407" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/781407</a>
+      ・ほこらクエスト攻略一覧：<a href="https://game8.jp/dqsmashgrow/781407" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/781407</a><br>
+      ・メモリ集め優先度一覧：<a href="https://game8.jp/dqsmashgrow/781430" target="_blank" rel="noopener">https://game8.jp/dqsmashgrow/781430</a>
     </p>
   </div>
 
@@ -241,27 +242,37 @@
 </div>
 
 <script>
-// 通常周回メモリ（画像URLは game8 各メモリ詳細ページの og:image より取得）
+// 通常周回メモリ
 var MEMORIES = [
-  { id:"lime",      name:"ライムスライム",   loc:"1-5 / 1-6",            img:"https://img.game8.jp/12590454/24e4810851729b5bca428c8e7ce56365/original" },
-  { id:"drakeema",  name:"ドラキーマ",       loc:"1-7 / 1-9",            img:"https://img.game8.jp/12590449/267316dc9e7c74e063a0f12894fdcff6/original" },
-  { id:"minidemon", name:"ミニデーモン",     loc:"2-13 / 14 / 16 / 18",  img:"https://img.game8.jp/12590468/673660fb86ac3f1ea5e53246b905e0f6/original" },
-  { id:"smilerock", name:"スマイルロック",   loc:"2-7 / 9 / 10 / 12",    img:"https://img.game8.jp/12590542/1ec78648d28cc41eeca682e17b5b87c0/original" },
-  { id:"mummy",     name:"マミー",           loc:"3-13 / 14 / 16 / 17 / 18", img:"https://img.game8.jp/12590507/110dab500a595fcd3cdd0d832ff3c199/original" },
-  { id:"behoimu",   name:"ベホイムスライム", loc:"3-7 / 9 / 10 / 11 / 12",   img:"https://img.game8.jp/12590495/f4560da4f47e6994a5ac05e868dee5e0/original" },
-  { id:"bighammer", name:"ビッグハンマー",   loc:"4-12 / 14 / 15 / 18 / 19", img:"https://img.game8.jp/12590546/b67e9bbce7bb6b848430a029351199ef/original" },
-  { id:"piero",     name:"ひとつめピエロ",   loc:"4-4 / 6 / 8 / 9 / 11",     img:"https://img.game8.jp/12590543/59166e3d37e835b3e5590ccde6d4aefe/original" },
-  { id:"lemon",     name:"レモンスライム",   loc:"5-14 / 15 / 16 / 17 / 19", img:"https://img.game8.jp/12590521/b6a2d348a649d42db4b248dce584b963/original" },
-  { id:"mouja",     name:"亡者のひとだま",   loc:"5-6 / 7 / 9 / 10 / 12",    img:"https://img.game8.jp/12590525/73466b83a7298b8f044653256672fd12/original" },
-  { id:"evilhawk",  name:"エビルホーク",     loc:"5-20",                     img:"https://img.game8.jp/12590520/c866644a9fe0816d724280312b138ade/original" }
+  { id:"lime",      name:"ライムスライム",   loc:"1-5 / 1-6",            img:"https://sspark.genspark.ai/cfimages?u1=fU1vnOjROf9B7d0s4EckiLLFhcc04WdujN%2BZxU5Fz%2Bk3xiou64jyAynW8HDS9BcpJnM5FZtgru08LLwBeboQDSoBey00rMMA0wFAnMOEUzX8MxxWr7bgXw%3D%3D&u2=CptKDbL2vumZEQ8j&width=1024" },
+  { id:"drakeema",  name:"ドラキーマ",       loc:"1-7 / 1-9",            img:"https://sspark.genspark.ai/cfimages?u1=53XF5CwrR45ivvVVRWzWPd7Va2T2NAZPzkW4bpvFRoIq469BpmkAwDr%2BwikL9D5Ze3fnb0IITdRE4rtGHc%2B75ApNMQo383HxbKnxTLYzq9n5cA47XjxHnQ%3D%3D&u2=Jl93ffMs6EtBL7g5&width=1024" },
+  { id:"minidemon", name:"ミニデーモン",     loc:"2-13 / 14 / 16 / 18",  img:"https://sspark.genspark.ai/cfimages?u1=nvjja6KkuTC9OjfWQ6QICxlmuuQ3juz0opbhtZC6pc8sycOUB8GxIISVCBplUADjCzj3W8KxTwIS83Pg1PCWpB69Au3WKOadyq%2BzvPhh%2FiKBdQxwhjZ1iA%3D%3D&u2=yrjpXVgGhUGpCcaR&width=1024" },
+  { id:"smilerock", name:"スマイルロック",   loc:"2-7 / 9 / 10 / 12",    img:"https://sspark.genspark.ai/cfimages?u1=CLBWgihwYEzAPYZssOGgQ0ptfvd1yEsmJXbdWHIKHeIHQwt5ryb70KM%2F87l5MRupk8YK1VQrFZT2dsR9Bssc67N7FGN%2BAGDT%2Bj8ciHONsiNVJI%2FYgbHD1A%3D%3D&u2=hUG468QcVNWd9AmM&width=1024" },
+  { id:"mummy",     name:"マミー",           loc:"3-13 / 14 / 16 / 17 / 18", img:"https://sspark.genspark.ai/cfimages?u1=HS8h4Ge%2BHbKePuM%2FUT%2BnGN0NupApIXXPNgKnwJdhHDajsZLtEYr7cVz4cwYdDT3NejnEZ%2FYOWipI6ryDGshDG7sP9D93XgI2KcacqSKFjf%2BAY3tCbKJ1yQ%3D%3D&u2=ky4%2BtfvT8DharzKs&width=1024" },
+  { id:"behoimu",   name:"ベホイムスライム", loc:"3-7 / 9 / 10 / 11 / 12",   img:"https://sspark.genspark.ai/cfimages?u1=GDRC%2FNZS3m8VsktOioDW%2Fn42dmqgXIpBv9yhsSqPa8eohNSpJXG4dLE2a97x7ldQF2CmFGlgCnR8q8QILboc0Uo2zImntoXt0rGV95cWbcjs2U0qjBd3WQ%3D%3D&u2=SBOwLrk7kUY%2BGuVz&width=1024" },
+  { id:"bighammer", name:"ビッグハンマー",   loc:"4-12 / 14 / 15 / 18 / 19", img:"https://sspark.genspark.ai/cfimages?u1=%2BnDYkFVmf1qyA7XG%2FH2sEFtKRUL7sDqXPwPwOTvx14haMGu9jTNAUevFjEr0pN%2BPcwNJq%2FVDkeCWVq4rcl63Ov11sW9%2FEbF44x3rro9y35KNc7FB16o0ig%3D%3D&u2=AaCl9nq50UEVhT8w&width=1024" },
+  { id:"piero",     name:"ひとつめピエロ",   loc:"4-4 / 6 / 8 / 9 / 11",     img:"https://sspark.genspark.ai/cfimages?u1=Jfx34%2B3kiK4wxazRWLBVkBnSiiMNEfJ6N0fMHeLm%2B9pBTD7MR7tnF%2FA%2Bs8x52m1RPbVXyq8y90QjJS5N3RPS1OeXMoPCKXthVtWa8%2ByRJcwt8YnqDnArwg%3D%3D&u2=puqvxbagsXMXbyep&width=1024" },
+  { id:"lemon",     name:"レモンスライム",   loc:"5-14 / 15 / 16 / 17 / 19", img:"https://sspark.genspark.ai/cfimages?u1=mjZ%2FzmlE98fnR5P3UzGmrbTmot5CAm0bTgZ178SHkmtAqY%2BlwC%2BisewXtz%2FYzud8tZI30UaJKzHnkw378RYjFZsWCx0CXjblFwrI%2FW7vAG%2BwquqxeqHSkA%3D%3D&u2=OhRgdaVEHtFdNcOc&width=1024" },
+  { id:"mouja",     name:"亡者のひとだま",   loc:"5-6 / 7 / 9 / 10 / 12",    img:"https://sspark.genspark.ai/cfimages?u1=eUN8B1%2B0N%2BNlqijsIQx0iPQfaGH5uXogaAy%2BC60HVLhIiRseIvGmTjTjhdL7XnEBZfGV1lCn7ZMYOiJPDybjzr8H696Ht7xQknS1Md4TQVUYDK%2B%2Br6Cbrw%3D%3D&u2=vAFJ%2FDb5rUJ%2Fq7pu&width=1024" },
+  { id:"evilhawk",  name:"エビルホーク",     loc:"5-20",                     img:"https://sspark.genspark.ai/cfimages?u1=%2BOrLtCyGZQTorPJHOmasWX0f6UKVqxRiT4pwvdcDmd0H89aRFHbJMehRrxeH3NhMNC2JWet834QOVUvl%2FeYBRP8845sfGiHsH30MmI%2B1com6yPLR5GkPaA%3D%3D&u2=Q7jnZtlFXrBVl2cV&width=1024" }
 ];
 
-// ほこらクエストメモリ（画像URLは game8 各メモリ詳細ページの og:image より取得）
+// ほこらクエストメモリ
 var HOKORA = [
-  { id:"icegolem",     name:"アイスゴーレム",  loc:"アイスゴーレムのほこら（常設）",            img:"https://img.game8.jp/12590504/117578f692591591dbef2322cb8282ac/original", tag:"常設" },
-  { id:"akumashinkan", name:"あくましんかん",  loc:"あくましんかんのほこら（常設・3章10クリア）", img:"https://img.game8.jp/12590422/566efab58f7d48a3dc7774e6b5e6c562/original", tag:"常設" },
-  { id:"protokiller",  name:"プロトキラー",    loc:"プロトキラーのほこら（常設・4章10クリア）",  img:"https://img.game8.jp/12590421/8b9d784e217a9789b406a11ae5f377a3/original", tag:"常設" },
-  { id:"ryuou",        name:"りゅうおう",      loc:"りゅうおうのほこら（イベント限定）",          img:"https://img.game8.jp/12590419/f89288f227c6726259e891373e2d70b9/original", tag:"限定" }
+  { id:"icegolem",     name:"アイスゴーレム",  loc:"アイスゴーレムのほこら（常設）",            img:"https://sspark.genspark.ai/cfimages?u1=5OZCkCv7XVsyCQtdbO%2BkuZtNnZ5biY08Hq2rLCO1GQXtZjfhQnVXFS6WXhx%2B89ntHQI3t0%2FpUNF%2Fe4AyagfUXx8d5vogf106FEQ2iESkaYs8ZIZLy3Ntyg%3D%3D&u2=Gu3%2FydTQ0Q62cMGK&width=1024", tag:"常設" },
+  { id:"akumashinkan", name:"あくましんかん",  loc:"あくましんかんのほこら（常設・3章10クリア）", img:"https://sspark.genspark.ai/cfimages?u1=8BjfKitz1hMHQ6EiTE94HqolyIojJircNNftnaNPot10iV7%2BLS6YiGKDb7lvSdS1nENNCxkfuezgejT4eHXz2TveHrXjciyeokzVqvzvP5vvXgWVhWRnoA%3D%3D&u2=EtI2WSSA8soYLVuI&width=1024", tag:"常設" },
+  { id:"protokiller",  name:"プロトキラー",    loc:"プロトキラーのほこら（常設・4章10クリア）",  img:"https://sspark.genspark.ai/cfimages?u1=aDYG1kd7E4fuzf%2BCCPSWKdeFfxCUQNuA2eZNE3Jq1gdg%2FQP9ukW0PooM9HVYjzv6%2FpV7JNKWd5tz6dod7rj1J7tVnKZFMIlDslPPW39Bi%2BurOu0BrRTM6w%3D%3D&u2=29OHhCvJ%2BV5TGcLr&width=1024", tag:"常設" },
+  { id:"honoo",        name:"ほのおのせんし",  loc:"ほのおのせんしのほこら（常設）",            img:"https://sspark.genspark.ai/cfimages?u1=BhhCOPOy3hFJnRjOd7hGL30%2FEJVtyWeWtnPau2EjpbWlqgEIBm5jLZYaPqIdPjtO4tdwS%2FJXfIEaY5DQuhjxq0LsI77yz7ar8xFzy%2FRPnMNj0oATBEp7Uw%3D%3D&u2=Hwd4VmCKYGtUd9Rv&width=1024", tag:"常設" },
+  { id:"ryuou",        name:"りゅうおう",      loc:"りゅうおうのほこら（イベント限定）",          img:"https://sspark.genspark.ai/cfimages?u1=Ai%2FZjO5EjjSPDoXjyWCmkP3lU4P3%2FniLaM%2BJmFO%2BdPtbvqszHu0%2BGMJKD8M%2FKwxA0AEVUBOjW6qCFnwgktpZhq5iYmEBhXRaBj4XzsY5SmWRqnHcwG6h5g%3D%3D&u2=bJtb6vaedsGkm%2Fzz&width=1024", tag:"限定" }
+];
+
+// マルチクエストで入手できるモンスターメモリ
+var MULTI = [
+  { id:"akumakishi_gun", name:"あくまのきし軍", loc:"マルチクエスト（イベント）", img:"https://sspark.genspark.ai/cfimages?u1=xmbiMPRcjK9q8U50OjhW6%2F%2BkxH8UYsh6Ku1xFI9iRSelb9imnlfkm8njhUn9qBeS3mx6ax97BQnbRyiD792eIh%2BuVOntsmgkVfB46hzXLXDxlD9GHgbDeQ%3D%3D&u2=0fNzXE1kgSjk%2FViB&width=1024", tag:"マルチ" },
+  { id:"ryuou_gun",      name:"りゅうおう軍",   loc:"マルチクエスト（イベント）", img:"https://sspark.genspark.ai/cfimages?u1=eICVZZlwmRP%2B0ayWurm0D7lbwb4TLlgBsWOYZTDtkDVRKqnCGpF%2FBw4g9z58wc87FcG6M3%2BL%2BB7Uy5LhrwlXRccgbs66PTTWvPxU68fg4DN92EohY683RA%3D%3D&u2=PYgScJEYnxiWPzFq&width=1024", tag:"マルチ" },
+  { id:"akumakishi",     name:"あくまのきし",   loc:"マルチクエスト（イベント）", img:"https://sspark.genspark.ai/cfimages?u1=WFXO3%2BgK9LyQzsiyYJwKiOXJ8%2BN%2BnMABDP5ZMjMWimmgUx8EAQsc7cWQeRNr3cHl3CZu9VZhuth0MPe86zh%2BUV9xd2z19ml68PoYyAveqtFt2z4YfrFH0g%3D%3D&u2=Ho55bHp%2BM4xIZREx&width=1024", tag:"マルチ" },
+  { id:"samayouyoroi",   name:"さまようよろい", loc:"マルチクエスト（イベント）", img:"https://sspark.genspark.ai/cfimages?u1=f3z5kYj%2BmvKVJAmtxQQYNU2pwAJWaOuj5aS7NarrQjNos9oREQVm51MDzaRu0O1PbABc%2FEjzC1mWzPfS%2FaqdKFXVFTl9%2BIycHYbUxqoOe6sO0Qppa4nqPg%3D%3D&u2=h3aCLtgXD2qRoPb%2B&width=1024", tag:"マルチ" },
+  { id:"hellghost",      name:"ヘルゴースト",   loc:"マルチクエスト（イベント）", img:"https://sspark.genspark.ai/cfimages?u1=kwTcIdaW1mZ8h2LavTqQsXcOUBi5%2FD0OI1Qqb8oIeo4Yu9Q0ZG3cEPysteG9k5Rg8r201YdKsZlSCiFhZDNb%2F2hmHGCULBK1M%2BFJ454ABtvJjl20o5zoMw%3D%3D&u2=MiASSZhILQXb3HZT&width=1024", tag:"マルチ" }
 ];
 
 function imgFallback(el, name){
@@ -275,7 +286,7 @@ function imgFallback(el, name){
 var currentCat = 'normal';
 var selectedId = null;
 
-function allMems(){ return MEMORIES.concat(HOKORA); }
+function allMems(){ return MEMORIES.concat(HOKORA).concat(MULTI); }
 function findMem(id){
   var all = allMems();
   for(var i=0;i<all.length;i++){ if(all[i].id===id) return all[i]; }
@@ -285,14 +296,24 @@ function isHokora(id){
   for(var i=0;i<HOKORA.length;i++){ if(HOKORA[i].id===id) return true; }
   return false;
 }
+function isMulti(id){
+  for(var i=0;i<MULTI.length;i++){ if(MULTI[i].id===id) return true; }
+  return false;
+}
+function catOf(id){
+  if(isHokora(id)) return 'hokora';
+  if(isMulti(id)) return 'multi';
+  return 'normal';
+}
 
 function buildPicker(){
   var box = document.getElementById('memPicker');
-  var list = (currentCat==='normal') ? MEMORIES : HOKORA;
+  var list = (currentCat==='normal') ? MEMORIES : (currentCat==='hokora') ? HOKORA : MULTI;
   var html = '';
   for(var i=0;i<list.length;i++){
     var m = list[i];
-    var cls = 'mem-opt' + (currentCat==='hokora' ? ' hokora' : '') + (m.id===selectedId ? ' sel' : '');
+    var extraCls = (currentCat==='hokora') ? ' hokora' : (currentCat==='multi') ? ' multi' : '';
+    var cls = 'mem-opt' + extraCls + (m.id===selectedId ? ' sel' : '');
     var tag = m.tag ? '<span class="tag">'+m.tag+'</span>' : '';
     html += '<div class="'+cls+'" data-id="'+m.id+'">' +
       '<img src="'+m.img+'" alt="'+m.name+'" loading="lazy" onerror="imgFallback(this,\''+m.name+'\')">' +
@@ -305,12 +326,13 @@ function setCat(cat){
   currentCat = cat;
   document.getElementById('tabNormal').classList.toggle('act', cat==='normal');
   document.getElementById('tabHokora').classList.toggle('act', cat==='hokora');
+  document.getElementById('tabMulti').classList.toggle('act', cat==='multi');
   buildPicker();
 }
 
 // メモリを選択（手動クリック時はD〜Aを0クリア）
 function selectMem(id, keepCounts){
-  var sw = isHokora(id) ? 'hokora' : 'normal';
+  var sw = catOf(id);
   if(sw !== currentCat){ setCat(sw); }
   selectedId = id;
   var opts = document.querySelectorAll('.mem-opt');
@@ -319,7 +341,7 @@ function selectMem(id, keepCounts){
   }
   var m = findMem(id);
   var pb = document.getElementById('pickedBox');
-  var lbl = isHokora(id) ? '入手場所' : 'おすすめ周回場所';
+  var lbl = (isHokora(id) || isMulti(id)) ? '入手場所' : 'おすすめ周回場所';
   pb.innerHTML = '<img src="'+m.img+'" alt="'+m.name+'" onerror="imgFallback(this,\''+m.name+'\')">' +
     '<div><div class="pn">'+m.name+'</div><div class="pl">'+lbl+'：'+m.loc+'</div></div>';
   if(!keepCounts){ clearCounts(); }
@@ -448,12 +470,12 @@ function render(){
 buildPicker();
 document.getElementById('tabNormal').addEventListener('click', function(){ setCat('normal'); });
 document.getElementById('tabHokora').addEventListener('click', function(){ setCat('hokora'); });
+document.getElementById('tabMulti').addEventListener('click', function(){ setCat('multi'); });
 document.getElementById('memPicker').addEventListener('click', function(e){
   var opt = e.target.closest('.mem-opt');
   if(!opt) return;
   selectMem(opt.getAttribute('data-id'));
 });
-// ステッパーボタン
 document.querySelectorAll('.sb').forEach(function(btn){
   btn.addEventListener('click', function(){
     stepField(btn.getAttribute('data-step'), parseInt(btn.getAttribute('data-d'),10));
